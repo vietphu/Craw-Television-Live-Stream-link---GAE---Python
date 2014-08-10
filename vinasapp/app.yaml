@@ -9,11 +9,11 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: .*
+- url: /
   script: main.app
 
 - url: /runcron
-  script: cron.app
+  script: cron.py
 
 libraries:
 - name: webapp2

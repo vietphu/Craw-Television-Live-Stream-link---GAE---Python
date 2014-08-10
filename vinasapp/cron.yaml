@@ -1,5 +1,4 @@
 cron:
-- description: test dispatch vs target
- url: '/runcron'
- schedule: every 1 mins
- target: module1
+- 	description: test
+	url: /runcron
+	schedule: every 1 mins
