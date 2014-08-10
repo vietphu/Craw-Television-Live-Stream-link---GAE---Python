@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import logging
 import webapp2
 import urllib
 import sys
@@ -22,7 +23,7 @@ sys.path.insert(0,'libs')
 #sys.path.append(os.path.join(os.path.dirname(__file__), "libs"))
 from bs4 import BeautifulSoup
 from google.appengine.api import urlfetch
-urlfetch.set_default_fetch_deadline(45)
+urlfetch.set_default_fetch_deadline(60)
 
 
 #print json.dumps(jsonobjchanel, indent=4, sort_keys=True)
@@ -39,17 +40,20 @@ class MainHandler(webapp2.RequestHandler):
 		i=0
 		objchanel = []
 		for anchor in soup.find_all('a',{ 'class':'mh-grids5-img'}):
-		  filechanel = urllib.urlopen(anchor['href'].encode('utf-8'))
-		  for lines in filechanel.readlines():
-			  if foo in lines:
-				firstsign = lines.index('"') + 1
-				lines = lines[firstsign:] 
-				lastsign = lines.index('"')
-				lines = lines[:lastsign]
-				#print i,anchor['title'], lines, anchor.find('img')['src']
-				#objchanel.append({'id': i, 'title': anchor['title'],'lines': lines, 'img':anchor.find('img')['src']})
-				objchanel = anchor.find('img')['src']
-				i=i+1
+			try:
+				filechanel = urllib.urlopen(anchor['href'].encode('utf-8'))
+				for lines in filechanel.readlines():
+					if foo in lines:
+						firstsign = lines.index('"') + 1
+						lines = lines[firstsign:] 
+						lastsign = lines.index('"')
+						lines = lines[:lastsign]
+						#print i,anchor['title'], lines, anchor.find('img')['src']
+						#objchanel.append({'id': i, 'title': anchor['title'],'lines': lines, 'img':anchor.find('img')['src']})
+						objchanel = anchor.find('img')['src']
+						i=i+1
+			except:
+				logging.error('Error when urlopen %s', anchor['href'].encode('utf-8'))
 		# objchanelpreload = json.dumps(objchanel)
 		# jsonobjchanel = json.loads(objchanelpreload)
 		self.response.write(objchanel)
