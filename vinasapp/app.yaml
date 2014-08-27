@@ -13,7 +13,7 @@ handlers:
   script: main.app
 
 - url: /runcron
-  script: cron.py
+  script: vietphu.app
 
 libraries:
 - name: webapp2
