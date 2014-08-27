@@ -17,9 +17,11 @@ class VietPhu(webapp2.RequestHandler):
 		foo = ".cdnviet.com/"
 		mainurl = 'http://www.htvonline.com.vn/livetv'
 		mainurl.encode('utf-8')
+		# httplib2.Http(timeout=1500)
 		opener = urllib2.build_opener()
 		# filehandle = urllib.urlopen(mainurl)
 		opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0')]
+		opener.addheaders.append(('Host', 'htqjrpsv.cdnviet.com'))
 		# opener.addheaders.append( ('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8') )
 		# opener.addheaders.append( ('Accept-Encoding', 'gzip, deflate') )
 		# opener.addheaders.append( ('Accept-Language', 'en-US,en;q=0.5') )
@@ -27,6 +29,7 @@ class VietPhu(webapp2.RequestHandler):
 		# opener.addheaders.append( ('Host', 'htqjrpsv.cdnviet.com') )
 		# opener.addheaders.append( ('Referer', 'http://www.htvonline.com.vn/js/jwplayer.flash.swf') )
 		# opener.addheaders.append( ('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0') )
+		# logging.info('[Addheaders]: %s', opener.addheaders)
 		filehandle = opener.open(mainurl).read()
 		soup = BeautifulSoup(filehandle)
 		i=0
@@ -46,7 +49,7 @@ class VietPhu(webapp2.RequestHandler):
 				logging.info('[Title]: %s', anchor['title'].encode('utf-8'))
 				logging.info('[Lines]: %s', lines.encode('utf-8'))
 				logging.info('[Img]: %s', anchor.find('img')['src'].encode('utf-8'))
-				# objchanel.append({'id': i, 'title': anchor['title'],'lines': lines, 'img':anchor.find('img')['src']})
+				objchanel.append({'id': i, 'title': anchor['title'],'lines': lines, 'img':anchor.find('img')['src']})
 				i=i+1
 		# objchanelpreload = json.dumps(objchanel)
 		# jsonobjchanel = json.loads(objchanelpreload)
