@@ -13,7 +13,7 @@ handlers:
   script: main.app
 
 - url: /runcron
-  script: vietphu.app
+  script: tvtructuyen.app
 
 libraries:
 - name: webapp2
