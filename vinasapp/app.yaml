@@ -12,6 +12,9 @@ handlers:
 - url: /
   script: main.app
 
+- url: /getlist
+  script: listchanel.app
+  
 - url: /runcron
   script: tvtructuyen.app
 

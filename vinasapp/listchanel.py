@@ -25,10 +25,10 @@ class ListChanelHandler(webapp2.RequestHandler):
     def get(self):
 		q = Chanel.all()
 		for p in q.run(limit=5):
-			logging.info('[id]: %s', p.id)
-			logging.info('[img]: %s', p.img)
-			logging.info('[urls]: %s', p.urls)
-			logging.info('[active]: %s', p.active)
+			logging.info('[id]: %s', id)
+			logging.info('[img]: %s', img)
+			logging.info('[urls]: %s', urls)
+			logging.info('[active]: %s', active)
 		self.response.write(q)
 		
 app = webapp2.WSGIApplication([
