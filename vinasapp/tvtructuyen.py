@@ -9,8 +9,21 @@ import StringIO
 sys.path.insert(0,'libs')
 from bs4 import BeautifulSoup
 
+from google.appengine.ext import ndb
+
 from google.appengine.api import urlfetch
 urlfetch.set_default_fetch_deadline(1200)
+
+def chanellist_key(chanellist_name='default_chanellist'):
+    return ndb.Key('ChanelListDB', chanellist_name)
+
+class Chanel(ndb.Model):
+    # key_name = ndb.StringProperty(indexed=True)
+	id = ndb.StringProperty(required=True)
+	name = ndb.StringProperty(required=True)
+	img = ndb.StringProperty(indexed=False)
+	urls = ndb.TextProperty(required=True)
+    # date = ndb.DateTimeProperty(auto_now_add=True)
 
 class VietPhu(webapp2.RequestHandler):
     def get(self):
@@ -21,6 +34,7 @@ class VietPhu(webapp2.RequestHandler):
 		headers={'User-Agent':user_agent,} 
 		
 		for i in range(len(chanelList)):
+			urls = '';
 			logging.info('[chanelList[i]]: %s', chanelList[i])
 			request=urllib2.Request(chanelList[i],None,headers) 
 			response = urllib2.urlopen(request)
@@ -34,6 +48,20 @@ class VietPhu(webapp2.RequestHandler):
 						lastsign = lines.index("'")
 						lines = lines[:lastsign]
 						logging.info('[Lines]: %s', lines)
+						urls+='#'
+						urls+=lines
+			logging.info('[urls]: %s', urls)
+			# chanel = Chanel(parent=chanellist_key())
+			chanel = Chanel.get_by_key_name(chanelList[i],parent=chanellist_key())
+			if chanel is None:
+				chanel = Chanel(key_name = chanelList[i],parent=chanellist_key())
+				chanel.name = chanelList[i]
+				chanel.urls = urls
+				chanel.put()
+			else:
+				chanel.name = chanelList[i]
+				chanel.urls = urls
+				chanel.put()
 app = webapp2.WSGIApplication([
     ('/runcron', VietPhu)
 ], debug=True)
