@@ -29,6 +29,7 @@ class ListChanelHandler(webapp2.RequestHandler):
 			# logging.info('[active]: %s', p.active)
 			d = {}
 			d['id']=p.id
+			# d['key_name']=p.key_name
 			d['img']=p.img
 			d['urls']=p.urls
 			d['active']=p.active

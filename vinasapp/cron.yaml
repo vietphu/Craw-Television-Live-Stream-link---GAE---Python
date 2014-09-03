@@ -1,4 +1,4 @@
 cron:
 - description: vietphu
   url: /runcron
-  schedule: every 1 mins
+  schedule: every 1 hours

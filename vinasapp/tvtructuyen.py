@@ -27,7 +27,15 @@ class VietPhu(webapp2.RequestHandler):
     def get(self):
 		foo = "urlArry["
 		mainurl = 'http://tivionline.vn/tivionline/vtv3.php'
-		chanelList=['http://tivionline.vn/tivionline/vtv3.php','http://tivionline.vn/tivionline/vtv2.php','http://tvtructuyen.net/xem/hbo.php']
+		chanelList=[
+		'http://tivionline.vn/tivionline/vtv3.php',
+		'http://tivionline.vn/tivionline/vtv2.php',
+		'http://tvtructuyen.net/xem/hbo.php',
+		'http://tvtructuyen.net/xem/vtv1.php',
+		'http://tvtructuyen.net/xem/vtv2.php', #always show vtv3
+		'http://tvtructuyen.net/xem/vtv4.php',
+		'http://tvtructuyen.net/xem/vtv6.php',
+		]
 		user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
 		headers={'User-Agent':user_agent,} 
 		
