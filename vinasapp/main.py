@@ -12,8 +12,16 @@ urlfetch.set_default_fetch_deadline(60)
 
 from google.appengine.ext import db
 
-#print json.dumps(jsonobjchanel, indent=4, sort_keys=True)
-#filehandle.close()
+welcome = """
+<html>
+<body>
+<p>
+Welcome to the Vinasapp
+<p>
+<a href=http://vinasapp.com>Please go to main Vinasapp website</a>
+</body>
+</html>
+"""
 
 class Chanel(db.Model):
 	id = db.IntegerProperty(required=False)
@@ -23,14 +31,8 @@ class Chanel(db.Model):
 
 class ListChanelHandler(webapp2.RequestHandler):
     def get(self):
-		q = Chanel.all()
-		for p in q.run(limit=5):
-			logging.info('[id]: %s', p.id)
-			logging.info('[img]: %s', p.img)
-			logging.info('[urls]: %s', p.urls)
-			logging.info('[active]: %s', p.active)
-		self.response.write(q)
-		
+		self.response.write(welcome)
+
 app = webapp2.WSGIApplication([
-    ('/', ListChanelHandler)
+    ('/', ListChanelHandler),
 ], debug=True)
