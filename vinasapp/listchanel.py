@@ -11,12 +11,7 @@ from google.appengine.api import urlfetch
 urlfetch.set_default_fetch_deadline(60)
 
 from google.appengine.ext import db
-
-class Chanel(db.Model):
-	id = db.IntegerProperty(required=False)
-	img = db.StringProperty(indexed=False)
-	urls = db.TextProperty(required=False)
-	active = db.BooleanProperty(required=False,default=True)
+from tvtructuyen import Chanel
 
 class ListChanelHandler(webapp2.RequestHandler):
     def get(self):
@@ -28,8 +23,9 @@ class ListChanelHandler(webapp2.RequestHandler):
 			# logging.info('[urls]: %s', p.urls)
 			# logging.info('[active]: %s', p.active)
 			d = {}
-			d['id']=p.id
+			# d['id']=p.id
 			# d['key_name']=p.key_name
+			d['name']=p.name
 			d['img']=p.img
 			d['urls']=p.urls
 			d['active']=p.active
