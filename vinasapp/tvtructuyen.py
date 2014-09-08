@@ -25,30 +25,34 @@ class VietPhu(webapp2.RequestHandler):
 	user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
 	headers={'User-Agent':user_agent,}
 	
+	#http://tivi12h.com/
+	#http://xemtvhd.com/
+	
 	def get(self):
 		chanelList=[
 		# 'http://tivionline.vn/tivionline/vtv3.php',1,
 		# 'http://xemtvhd.com/xemtvhd/vtvphuyen.php',1,
 		# 'http://xemtvhd.com/xemtvhd/vtv6.php',1,
 		# 'http://www.vtvplus.vn/index.php?option=com_vtv&view=channel&id=2',3,
-		'http://vtvplay.vn/api/channel?streamid=11',4,"VTV3 HD",
-		'http://vtvplay.vn/api/channel?streamid=1',4,"VTV1",
-		'http://vtvplay.vn/api/channel?streamid=9',4,"VTV2",
-		'http://vtvplay.vn/api/channel?streamid=12',4,"VTV4",
-		'http://vtvplay.vn/api/channel?streamid=3',4,"VTV6",
-		'http://vtvplay.vn/api/channel?streamid=10',4,"VTV9",
-		'http://vtvplay.vn/api/channel?streamid=5',4,"TheThaoTV HD",
-		'http://vtvplay.vn/api/channel?streamid=31',4,"BiBi",
-		'http://vtvplay.vn/api/channel?streamid=6',4,"Bong Da TV HD",
-		'http://vtvplay.vn/api/channel?streamid=4',4,"Kenh 14",
-		'http://vtvplay.vn/api/channel?streamid=26',4,"Today TV",
-		'http://vtvplay.vn/api/channel?streamid=13',4,"Start Sport",
-		'http://vtvplay.vn/api/channel?streamid=7',4,"FOX Sport Plus HD",
-		'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
-		'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
-		'http://vtvplay.vn/api/channel?streamid=19',4,"SCTV15",
-		'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
-		'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
+		# 'http://vtvplay.vn/api/channel?streamid=11',4,"VTV3 HD",
+		# 'http://vtvplay.vn/api/channel?streamid=1',4,"VTV1",
+		# 'http://vtvplay.vn/api/channel?streamid=9',4,"VTV2",
+		# 'http://vtvplay.vn/api/channel?streamid=12',4,"VTV4",
+		# 'http://vtvplay.vn/api/channel?streamid=3',4,"VTV6",
+		# 'http://vtvplay.vn/api/channel?streamid=10',4,"VTV9",
+		# 'http://vtvplay.vn/api/channel?streamid=5',4,"TheThaoTV HD",
+		# 'http://vtvplay.vn/api/channel?streamid=31',4,"BiBi",
+		# 'http://vtvplay.vn/api/channel?streamid=6',4,"Bong Da TV HD",
+		# 'http://vtvplay.vn/api/channel?streamid=4',4,"Kenh 14",
+		# 'http://vtvplay.vn/api/channel?streamid=26',4,"Today TV",
+		# 'http://vtvplay.vn/api/channel?streamid=13',4,"Start Sport",
+		# 'http://vtvplay.vn/api/channel?streamid=7',4,"FOX Sport Plus HD",
+		# 'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
+		# 'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
+		# 'http://vtvplay.vn/api/channel?streamid=19',4,"SCTV15",
+		# 'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
+		# 'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
+		'http://xemtvhd.com/xemtvhd/hbo.php',5,'HBO SD',
 		]
 		 
 		requestURL = ' '
@@ -121,6 +125,17 @@ class VietPhu(webapp2.RequestHandler):
 				urls = lines
 			return urls
 			
+		if sl==5: #var urlArry = new Array();var typeArry = new Array();var num_of_urlArry;var index_of_urlArry;var start = true;var playing = false;index_of_urlArry = 0;urlArry[0]='http://m26.megafun.vn/ilive.m3u8?c=vstv036&token=-q3liG79ZNfa8GxrqzbctA&time=1402989866&q=high&type=tv&tk=a3ea1480b8a373a69f4ebb5fc37562b2';num_of_urlArry = urlArry.length;
+			detect_word = "urlArry[0]='"
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index(detect_word)+12
+					lines = lines[firstsign:] 
+					lastsign = lines.index("';num_of_urlArry =")
+					lines = lines[:lastsign]
+					urls = lines
+					logging.info('[urls-solution5]: %s', urls)
+			return urls	
 		return None
 		
 app = webapp2.WSGIApplication([
