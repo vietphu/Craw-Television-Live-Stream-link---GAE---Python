@@ -34,6 +34,8 @@ class VietPhu(webapp2.RequestHandler):
 		# 'http://xemtvhd.com/xemtvhd/vtvphuyen.php',1,
 		# 'http://xemtvhd.com/xemtvhd/vtv6.php',1,
 		# 'http://www.vtvplus.vn/index.php?option=com_vtv&view=channel&id=2',3,
+		
+		#VTVplay
 		# 'http://vtvplay.vn/api/channel?streamid=11',4,"VTV3 HD",
 		# 'http://vtvplay.vn/api/channel?streamid=1',4,"VTV1",
 		# 'http://vtvplay.vn/api/channel?streamid=9',4,"VTV2",
@@ -52,13 +54,22 @@ class VietPhu(webapp2.RequestHandler):
 		# 'http://vtvplay.vn/api/channel?streamid=19',4,"SCTV15",
 		# 'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
 		# 'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
+		
+		#foreign
 		'http://xemtvhd.com/xemtvhd/hbo.php',5,'HBO SD',
 		'http://xemtvhd.com/xemtvhd/movies.php',3,'Star Movies',
 		'http://xemtvhd.com/xemtvhd/star-movies-hd-2.php',3,'Star Movies HD',
+		'http://xemtvhd.com/xemtvhd/arirang.php',7,'Arirang',
+		'http://xemtvhd.com/xemtvhd/music-box.php',8,'Music box TV',
+		
+		#VTC
 		'http://xemtvhd.com/xemtvhd/vtc14.php',6,'VTC14',
 		'http://xemtvhd.com/xemtvhd/vtc13.php',3,'VTC 13',#iTivi
 		'http://xemtvhd.com/xemtvhd/vtc11-2.php',1,'VTC 11',#Kids TV
-		'http://xemtvhd.com/xemtvhd/arirang.php',7,'Arirang',
+		
+		#vietnam
+		'http://xemtvhd.com/xemtvhd/vinhlong1.php',1,'Vinh Long 1',
+		
 		
 		]
 		 
@@ -168,6 +179,19 @@ class VietPhu(webapp2.RequestHandler):
 					urls = lines
 					logging.info('[urls-solution6]: %s', urls)
 			return urls
+		
+		if sl==8: #jwplayer("myElement").setup({file: "rtmp://117.103.224.31/live/livestream",image: "tivionline-vn.png", stretching:'exactfit',width: '100%',height: '100%',autostart: true});
+			detect_word = "title=\"music box\""
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index("sv=") + 3
+					lines = lines[firstsign:] 
+					lastsign = lines.index("\" width=")
+					lines = lines[:lastsign]
+					urls = lines
+					logging.info('[urls-solution6]: %s', urls)
+			return urls
+			
 		return None
 		
 app = webapp2.WSGIApplication([
