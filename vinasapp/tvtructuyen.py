@@ -53,6 +53,10 @@ class VietPhu(webapp2.RequestHandler):
 		# 'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
 		# 'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
 		'http://xemtvhd.com/xemtvhd/hbo.php',5,'HBO SD',
+		'http://xemtvhd.com/xemtvhd/movies.php',3,'Star Movies',
+		'http://xemtvhd.com/xemtvhd/star-movies-hd-2.php',3,'Star Movies HD',
+		'http://xemtvhd.com/xemtvhd/vtc14.php',6,'VTC14',
+		'http://xemtvhd.com/xemtvhd/vtc13.php',3,'VTC 13',#iTivi
 		]
 		 
 		requestURL = ' '
@@ -106,8 +110,9 @@ class VietPhu(webapp2.RequestHandler):
 			return urls
 			
 		if sl==3:
+			detect_word = "var responseText ="
 			for lines in bufFilechanel.readlines():
-				if detect_word_3 in lines:
+				if detect_word in lines:
 					firstsign = lines.index("http:")
 					lines = lines[firstsign:] 
 					lastsign = lines.index(";</") - 1
@@ -136,6 +141,19 @@ class VietPhu(webapp2.RequestHandler):
 					urls = lines
 					logging.info('[urls-solution5]: %s', urls)
 			return urls	
+		
+		if sl==6: #jwplayer("myElement").setup({file: "rtmp://117.103.224.31/live/livestream",image: "tivionline-vn.png", stretching:'exactfit',width: '100%',height: '100%',autostart: true});
+			detect_word = ").setup({file: "
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index(detect_word) + 16
+					lines = lines[firstsign:] 
+					lastsign = lines.index(",image:") - 1
+					lines = lines[:lastsign]
+					urls = lines
+					logging.info('[urls-solution6]: %s', urls)
+			return urls	
+			
 		return None
 		
 app = webapp2.WSGIApplication([
