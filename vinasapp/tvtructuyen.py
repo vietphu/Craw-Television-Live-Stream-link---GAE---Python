@@ -35,26 +35,6 @@ class VietPhu(webapp2.RequestHandler):
 		# 'http://xemtvhd.com/xemtvhd/vtv6.php',1,
 		# 'http://www.vtvplus.vn/index.php?option=com_vtv&view=channel&id=2',3,
 		
-		#VTVplay
-		# 'http://vtvplay.vn/api/channel?streamid=11',4,"VTV3 HD",
-		# 'http://vtvplay.vn/api/channel?streamid=1',4,"VTV1",
-		# 'http://vtvplay.vn/api/channel?streamid=9',4,"VTV2",
-		# 'http://vtvplay.vn/api/channel?streamid=12',4,"VTV4",
-		# 'http://vtvplay.vn/api/channel?streamid=3',4,"VTV6",
-		# 'http://vtvplay.vn/api/channel?streamid=10',4,"VTV9",
-		# 'http://vtvplay.vn/api/channel?streamid=5',4,"TheThaoTV HD",
-		# 'http://vtvplay.vn/api/channel?streamid=31',4,"BiBi",
-		# 'http://vtvplay.vn/api/channel?streamid=6',4,"Bong Da TV HD",
-		# 'http://vtvplay.vn/api/channel?streamid=4',4,"Kenh 14",
-		# 'http://vtvplay.vn/api/channel?streamid=26',4,"Today TV",
-		# 'http://vtvplay.vn/api/channel?streamid=13',4,"Start Sport",
-		# 'http://vtvplay.vn/api/channel?streamid=7',4,"FOX Sport Plus HD",
-		# 'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
-		# 'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
-		# 'http://vtvplay.vn/api/channel?streamid=19',4,"SCTV15",
-		# 'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
-		# 'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
-		
 		#foreign
 		'http://xemtvhd.com/xemtvhd/hbo.php',5,'HBO SD',
 		'http://xemtvhd.com/xemtvhd/movies.php',3,'Star Movies',
@@ -87,6 +67,26 @@ class VietPhu(webapp2.RequestHandler):
 		'http://xemtvhd.com/xemtvhd/fnbc.php',1,'FNBC',
 		'http://xemtvhd.com/xemtvhd/vtv3.php',3,'VTV3',
 		
+		#VTVplay
+		'http://vtvplay.vn/api/channel?streamid=11',4,"VTV3 HD",
+		'http://vtvplay.vn/api/channel?streamid=1',4,"VTV1",
+		'http://vtvplay.vn/api/channel?streamid=9',4,"VTV2",
+		'http://vtvplay.vn/api/channel?streamid=12',4,"VTV4",
+		'http://vtvplay.vn/api/channel?streamid=3',4,"VTV6",
+		'http://vtvplay.vn/api/channel?streamid=10',4,"VTV9",
+		'http://vtvplay.vn/api/channel?streamid=5',4,"TheThaoTV HD",
+		'http://vtvplay.vn/api/channel?streamid=31',4,"BiBi",
+		'http://vtvplay.vn/api/channel?streamid=6',4,"Bong Da TV HD",
+		'http://vtvplay.vn/api/channel?streamid=4',4,"Kenh 14",
+		'http://vtvplay.vn/api/channel?streamid=26',4,"Today TV",
+		'http://vtvplay.vn/api/channel?streamid=13',4,"Start Sport",
+		'http://vtvplay.vn/api/channel?streamid=7',4,"FOX Sport Plus HD",
+		'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
+		'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
+		'http://vtvplay.vn/api/channel?streamid=19',4,"SCTV15",
+		'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
+		'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
+		
 		]
 		 
 		requestURL = ' '
@@ -99,7 +99,10 @@ class VietPhu(webapp2.RequestHandler):
 				requestSolution = chanelList[i]
 			else:
 				requestName = chanelList[i]
-				self.feedSolution(requestURL,requestSolution,requestName)
+				try:
+				  self.feedSolution(requestURL,requestSolution,requestName)
+				except: 
+				  pass
 				
 	def feedSolution(self, requestURL, requestSolution, requestName):
 		logging.info('[requestURL]: %s', requestURL)
