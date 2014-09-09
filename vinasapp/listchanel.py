@@ -17,6 +17,7 @@ class ListChanelHandler(webapp2.RequestHandler):
     def get(self):
 		q = Chanel.all()
 		response_data = []
+		i=0;
 		for p in q.run(limit=999):
 			# logging.info('[id]: %s', p.id)
 			# logging.info('[img]: %s', p.img)
@@ -24,13 +25,18 @@ class ListChanelHandler(webapp2.RequestHandler):
 			# logging.info('[active]: %s', p.active)
 			d = {}
 			# d['id']=p.id
-			# d['key_name']=p.key().name()
+			d['key_name']=p.key().name()
 			# logging.info('[key_name==========]: %s', d['key_name'])
 			d['name']=p.name
-			d['img']=p.img
+			# d['img']=p.img
+			if (i%2) == 0:
+				d['img']='http://img.htvonline.com.vn/livetv/16062014/vtv3_20711402902808.png'
+			else:
+				d['img']='http://img.htvonline.com.vn/livetv/18052014/star-movies-hd--edited_75921400346206.png'
 			d['urls']=p.urls
 			d['active']=p.active
 			response_data.append(d)
+			i=i+1
 		self.response.write(json.dumps(response_data))
 
 class APIList(webapp2.RequestHandler):
