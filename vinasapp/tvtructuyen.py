@@ -73,7 +73,8 @@ class VietPhu(webapp2.RequestHandler):
 		
 		#vietnam
 		'http://xemtvhd.com/xemtvhd/vinhlong1.php',1,'Vinh Long 1',
-		'http://xemtvhd.com/xemtvhd/htv7.php',3, 'HTV7',
+		'http://xemtvhd.com/xemtvhd/htv3-mkt1.php?sv=m26.megafun.vn',9,'HTV3',
+		'http://xemtvhd.com/xemtvhd/htv7.php',9, 'HTV7',
 		'http://xemtvhd.com/xemtvhd/anninh.php',3,'An ninh TV',
 		'http://xemtvhd.com/xemtvhd/qpvn.php',7,'QPVN',
 		'http://xemtvhd.com/xemtvhd/sctvhai.php',7,'SCTV Hai',
@@ -83,9 +84,8 @@ class VietPhu(webapp2.RequestHandler):
 		#http://tivi12h.com/mkt-online-kenh-giai-tri.php online, check to get this source, really interesting in
 		#http://tivi12h.com/viet-mtv-kenh-viet-mtv-online.php
 		'http://xemtvhd.com/xemtvhd/thuanviet-hd.php',1,'Thuan Viet HD',
-		'http://xemtvhd.com/xemtvhd/htv3.php',3,'HTV3 HD',
 		'http://xemtvhd.com/xemtvhd/fnbc.php',1,'FNBC',
-		
+		'http://xemtvhd.com/xemtvhd/vtv3.php',3,'VTV3',
 		
 		]
 		 
@@ -208,14 +208,15 @@ class VietPhu(webapp2.RequestHandler):
 					logging.info('[urls-solution8]: %s', urls)
 			return urls
 		
-		if sl==3:
-			detect_word = "var responseText ="
+		if sl==9: #var responseText = "http://"+sv+"/ilive.m3u8?c=vstv075&token=TEfnZB2F38QfZN0w1DLQYA&time=1403538641&q=medium&type=tv&tk=a3ea1480b8a373a69f4ebb5fc37562b2,http://frdlzsmb.cdnviet.com/psczntp/_definst_/htv3.360p.stream/playlist.m3u8";
+			detect_word = "var responseText"
 			for lines in bufFilechanel.readlines():
 				if detect_word in lines:
 					firstsign = lines.index("http:")
 					lines = lines[firstsign:] 
-					lastsign = lines.index(";</") - 1
+					lastsign = lines.index("\";")
 					lines = lines[:lastsign]
+					lines.replace("\"+sv+\"", "m26.megafun.vn");
 					urls = lines
 			return urls
 			
