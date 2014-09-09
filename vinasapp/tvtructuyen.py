@@ -61,14 +61,30 @@ class VietPhu(webapp2.RequestHandler):
 		'http://xemtvhd.com/xemtvhd/star-movies-hd-2.php',3,'Star Movies HD',
 		'http://xemtvhd.com/xemtvhd/arirang.php',7,'Arirang',
 		'http://xemtvhd.com/xemtvhd/music-box.php',8,'Music box TV',
+		'http://xemtvhd.com/xemtvhd/cinemax.php',3, 'Cinemax',
+		'http://xemtvhd.com/xemtvhd/carton-cn.php',8,'CNN',
+		'http://xemtvhd.com/xemtvhd/disney.php',1,'Disney',
 		
 		#VTC
 		'http://xemtvhd.com/xemtvhd/vtc14.php',6,'VTC14',
 		'http://xemtvhd.com/xemtvhd/vtc13.php',3,'VTC 13',#iTivi
 		'http://xemtvhd.com/xemtvhd/vtc11-2.php',1,'VTC 11',#Kids TV
+		'http://xemtvhd.com/xemtvhd/vtc3.php',3,'VTC3',
 		
 		#vietnam
 		'http://xemtvhd.com/xemtvhd/vinhlong1.php',1,'Vinh Long 1',
+		'http://xemtvhd.com/xemtvhd/htv7.php',3, 'HTV7',
+		'http://xemtvhd.com/xemtvhd/anninh.php',3,'An ninh TV',
+		'http://xemtvhd.com/xemtvhd/qpvn.php',7,'QPVN',
+		'http://xemtvhd.com/xemtvhd/sctvhai.php',7,'SCTV Hai',
+		'http://xemtvhd.com/xemtvhd/htv-thethao.php',3,'HTV Theo Thao',
+		'http://xemtvhd.com/xemtvhd/hanoi2.php',1,'Ha Noi 2', 
+		'http://xemtvhd.com/xemtvhd/mtvviet.php',1,'MTV Viet',
+		#http://tivi12h.com/mkt-online-kenh-giai-tri.php online, check to get this source, really interesting in
+		#http://tivi12h.com/viet-mtv-kenh-viet-mtv-online.php
+		'http://xemtvhd.com/xemtvhd/thuanviet-hd.php',1,'Thuan Viet HD',
+		'http://xemtvhd.com/xemtvhd/htv3.php',3,'HTV3 HD',
+		'http://xemtvhd.com/xemtvhd/fnbc.php',1,'FNBC',
 		
 		
 		]
@@ -177,11 +193,11 @@ class VietPhu(webapp2.RequestHandler):
 					lastsign = lines.index("\",")
 					lines = lines[:lastsign]
 					urls = lines
-					logging.info('[urls-solution6]: %s', urls)
+					logging.info('[urls-solution7]: %s', urls)
 			return urls
 		
-		if sl==8: #jwplayer("myElement").setup({file: "rtmp://117.103.224.31/live/livestream",image: "tivionline-vn.png", stretching:'exactfit',width: '100%',height: '100%',autostart: true});
-			detect_word = "title=\"music box\""
+		if sl==8: #<iframe frameborder="no" height="100%" scrolling="no" title="music box" src="htv.php?sv=rtmp://musicbox.cdnvideo.ru/musicbox-live/musicboxtv.sdp" width="100%"></iframe>
+			detect_word = "src=\"htv.php?"
 			for lines in bufFilechanel.readlines():
 				if detect_word in lines:
 					firstsign = lines.index("sv=") + 3
@@ -189,7 +205,18 @@ class VietPhu(webapp2.RequestHandler):
 					lastsign = lines.index("\" width=")
 					lines = lines[:lastsign]
 					urls = lines
-					logging.info('[urls-solution6]: %s', urls)
+					logging.info('[urls-solution8]: %s', urls)
+			return urls
+		
+		if sl==3:
+			detect_word = "var responseText ="
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index("http:")
+					lines = lines[firstsign:] 
+					lastsign = lines.index(";</") - 1
+					lines = lines[:lastsign]
+					urls = lines
 			return urls
 			
 		return None
