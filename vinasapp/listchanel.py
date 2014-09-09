@@ -32,7 +32,19 @@ class ListChanelHandler(webapp2.RequestHandler):
 			d['active']=p.active
 			response_data.append(d)
 		self.response.write(json.dumps(response_data))
+
+class APIList(webapp2.RequestHandler):
+    def get(self):
+		api_links = [
+			"http://vinasapp.appspot.com/listchanel",
+			"http://vinasapp1.appspot.com/listchanel",
+			"http://vinasapp4.appspot.com/listchanel",
+			"http://vinasapp5.appspot.com/listchanel",
+		]
+		self.response.write(json.dumps(api_links))
+
 		
 app = webapp2.WSGIApplication([
-    ('/listchanel', ListChanelHandler)
+    ('/listchanel', ListChanelHandler),
+	('/apilist', APIList),
 ], debug=True)

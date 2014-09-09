@@ -1,3 +1,8 @@
+#appcfg.py --oauth2 update myapp/
+#appcfg.py --no_cookies --email=vinasapp1@gmail.com update ./
+#dinhvietphu@gmail.com vinasapp
+#vinasapp1@gmail.com vinasapp2
+#vinasapp4@gmail.com vinasapp4
 #!/usr/bin/python
 import logging
 import webapp2
