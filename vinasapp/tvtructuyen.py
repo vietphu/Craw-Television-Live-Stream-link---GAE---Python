@@ -55,22 +55,29 @@ class VietPhu(webapp2.RequestHandler):
 		'http://xemtvhd.com/xemtvhd/vtc13.php',3,'VTC 13',#iTivi
 		'http://xemtvhd.com/xemtvhd/vtc11-2.php',1,'VTC 11',#Kids TV
 		'http://xemtvhd.com/xemtvhd/vtc3.php',3,'VTC3',
+		'http://xemtivihd.vn/vtc-2-kenh-cong-nghe-thong-tin',7,'VTC2',
 		
 		#vietnam
 		'http://xemtvhd.com/xemtvhd/vinhlong1.php',1,'Vinh Long 1',
-		'http://xemtvhd.com/xemtvhd/htv3-mkt1.php?sv=m26.megafun.vn',9,'HTV3',
-		'http://xemtvhd.com/xemtvhd/htv7.php',9, 'HTV7',
 		'http://xemtvhd.com/xemtvhd/anninh.php',3,'An ninh TV',
 		'http://xemtvhd.com/xemtvhd/qpvn.php',7,'QPVN',
 		'http://xemtvhd.com/xemtvhd/sctvhai.php',7,'SCTV Hai',
-		'http://xemtvhd.com/xemtvhd/htv-thethao.php',3,'HTV Theo Thao',
 		'http://xemtvhd.com/xemtvhd/hanoi2.php',1,'Ha Noi 2', 
 		'http://xemtvhd.com/xemtvhd/mtvviet.php',1,'MTV Viet',
 		#http://tivi12h.com/mkt-online-kenh-giai-tri.php online, check to get this source, really interesting in
 		#http://tivi12h.com/viet-mtv-kenh-viet-mtv-online.php
 		'http://xemtvhd.com/xemtvhd/thuanviet-hd.php',1,'Thuan Viet HD',
 		'http://xemtvhd.com/xemtvhd/fnbc.php',1,'FNBC',
-		'http://xemtvhd.com/xemtvhd/vtv3.php',3,'VTV3',
+		
+		
+		#HTV
+		'http://xemtvhd.com/xemtvhd/htv3-mkt1.php?sv=m26.megafun.vn',9,'HTV3',
+		'http://xemtvhd.com/xemtvhd/htv7.php',9, 'HTV7',
+		'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
+		'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
+		'http://vpstesst.blogspot.com/2014/02/h9.html?sv=m7.megafun.vn',10,'HTV9',
+		'http://xemtvhd.com/xemtvhd/htv-thethao.php',3,'HTV Theo Thao',
+		
 		
 		#VTVplay
 		'http://vtvplay.vn/api/channel?streamid=11',4,"VTV3 HD",
@@ -86,8 +93,6 @@ class VietPhu(webapp2.RequestHandler):
 		'http://vtvplay.vn/api/channel?streamid=26',4,"Today TV",
 		'http://vtvplay.vn/api/channel?streamid=13',4,"Start Sport",
 		'http://vtvplay.vn/api/channel?streamid=7',4,"FOX Sport Plus HD",
-		'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
-		'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
 		'http://vtvplay.vn/api/channel?streamid=19',4,"SCTV15",
 		'http://vtvplay.vn/api/channel?streamid=20',4,"SCTV The Thao HD",
 		'http://vtvplay.vn/api/channel?streamid=56',4,"Thuan Viet HD",
@@ -226,6 +231,18 @@ class VietPhu(webapp2.RequestHandler):
 					lines = lines[:lastsign]
 					lines.replace("\"+sv+\"", "m26.megafun.vn");
 					urls = lines
+		
+		if sl==10: #var responseText = "http://"+sv+"/ilive.m3u8?c=vstv009&q=medium&type=tv&token=RDlwV-uUJSliZtUDbmbe9g&time=1410329237&gcId=1376442&userId=8&deviceId=630763&deviceType=5&location=NA&requestTime=1410242837806&pkg=pkg1,http://m26.megafun.vn/ilive.m3u8?c=vstv009&token=uN4b1Vt2Rq3bYqiuZqCASg&time=1403538639&q=medium&type=tv&tk=a3ea1480b8a373a69f4ebb5fc37562b2,rtmp://m22.megafun.vn/hctv/vstv009";
+			detect_word = "var responseText"
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index("http:")
+					lines = lines[firstsign:] 
+					lastsign = lines.index("\";")
+					lines = lines[:lastsign]
+					lines.replace("\"+sv+\"", "m7.megafun.vn");
+					urls = lines
+					
 			return urls
 			
 		return None
