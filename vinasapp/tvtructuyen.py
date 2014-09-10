@@ -47,18 +47,31 @@ class VietPhu(webapp2.RequestHandler):
 		'http://xemtvhd.com/xemtvhd/arirang.php',7,'Arirang',
 		'http://xemtvhd.com/xemtvhd/music-box.php',8,'Music box TV',
 		'http://xemtvhd.com/xemtvhd/cinemax.php',3, 'Cinemax',
+		'http://tvtructuyen.net/xem/cinemax.php',1,'Cinemax',
 		'http://xemtvhd.com/xemtvhd/carton-cn.php',8,'CNN',
 		'http://xemtvhd.com/xemtvhd/disney.php',1,'Disney',
+		'http://tvtructuyen.net/xem/dicovery.php',1,'Dicovery chanel',
+		
+		#VTV
+		'http://tvtructuyen.net/xem/vtv1.php',1,'VTV1',
+		'http://tvtructuyen.net/xem/vtv2-3.php',12,'VTV2',
+		'http://tvtructuyen.net/xem/vtv4-2.php',1,'VTV4',
+		'http://tvtructuyen.net/xem/vtv6.php',1,'VTV6',
+		'http://tvtructuyen.net/xem/vtv9-3.php',7,'VTV9',
+		
 		
 		#VTC
 		'http://xemtvhd.com/xemtvhd/vtc14.php',6,'VTC14',
 		'http://xemtvhd.com/xemtvhd/vtc13.php',3,'VTC 13',#iTivi
 		'http://xemtvhd.com/xemtvhd/vtc11-2.php',1,'VTC 11',#Kids TV
 		'http://xemtvhd.com/xemtvhd/vtc3.php',3,'VTC3',
+		'http://tvtructuyen.net/xem/vtc-hd3vtc.php',1,'VTC3 HD',
 		'http://xemtivihd.vn/vtc-2-kenh-cong-nghe-thong-tin',7,'VTC2',
+		'http://tvtructuyen.net/xem/vtc-hd1vtc.php',1,'VTC1 HD',
+		'http://tvtructuyen.net/xem/vtc7-7.php',7,'VTC7-Today TV',
 		
 		#vietnam
-		'http://xemtvhd.com/xemtvhd/vinhlong1.php',1,'Vinh Long 1',
+		# 'http://xemtvhd.com/xemtvhd/vinhlong1.php',1,'Vinh Long 1',
 		'http://xemtvhd.com/xemtvhd/anninh.php',3,'An ninh TV',
 		'http://xemtvhd.com/xemtvhd/qpvn.php',7,'QPVN',
 		'http://xemtvhd.com/xemtvhd/sctvhai.php',7,'SCTV Hai',
@@ -68,11 +81,22 @@ class VietPhu(webapp2.RequestHandler):
 		#http://tivi12h.com/viet-mtv-kenh-viet-mtv-online.php
 		'http://xemtvhd.com/xemtvhd/thuanviet-hd.php',1,'Thuan Viet HD',
 		'http://xemtvhd.com/xemtvhd/fnbc.php',1,'FNBC',
-		
+		'http://tvtructuyen.net/xem/binhduong2.php',6,'Binh Duong 2',
+		'http://tvtructuyen.net/xem/binhphuoc1.php',11,'Binh Phuoc 1',
+		'http://tvtructuyen.net/xem/binhphuoc2.php',11,'Binh Phuoc 2',
+		'http://tvtructuyen.net/xem/baria-vungtau.php',11,'Ba Ria - Vung Tau',
+		'http://tvtructuyen.net/xem/mtvviet.php',8,'MTV Viet',
+		'http://tvtructuyen.net/xem/v-music-viet.php',11,'VMusic Viet',
+		'http://tvtructuyen.net/xem/vpop.php',7,'VPop',
+		'http://tvtructuyen.net/xem/nct.php',11,'NCT',
+		# 'http://tvtructuyen.net/xem/phimviet-2.php',1,'Phim viet',
+		'http://tvtructuyen.net/xem/vovtv.php',1,'VOV TV',
+		'http://tvtructuyen.net/xem/vtvcantho1.php',7,'VTV CanTho1',
+		'http://tvtructuyen.net/xem/vtvcantho2.php',7,'VTV CanTho2',
 		
 		#HTV
-		'http://xemtvhd.com/xemtvhd/htv3-mkt1.php?sv=m26.megafun.vn',9,'HTV3',
-		'http://xemtvhd.com/xemtvhd/htv7.php',9, 'HTV7',
+		# 'http://xemtvhd.com/xemtvhd/htv3-mkt1.php?sv=m26.megafun.vn',9,'HTV3',
+		# 'http://xemtvhd.com/xemtvhd/htv7.php',9, 'HTV7',
 		'http://vtvplay.vn/api/channel?streamid=24',4,"HTV7",
 		'http://vtvplay.vn/api/channel?streamid=25',4,"HTV9",
 		'http://vpstesst.blogspot.com/2014/02/h9.html?sv=m7.megafun.vn',10,'HTV9',
@@ -242,7 +266,35 @@ class VietPhu(webapp2.RequestHandler):
 					lines = lines[:lastsign]
 					lines.replace("\"+sv+\"", "m7.megafun.vn");
 					urls = lines
+			return urls
+			
+		if sl==11: #streamer: "rtmp://113.161.180.136/live", file: "thbp1.tv",
+			detect_word = "streamer: \""
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index(detect_word) + 11
+					prefix = lines[firstsign:] 
+					lastsign = prefix.index("\",")
+					prefix = prefix[:lastsign]
 					
+					firstsign = lines.index("file: \"") + 7
+					suffix = lines[firstsign:]
+					lastsign = suffix.index("\",\n")
+					suffix = suffix[:lastsign]
+					
+					urls = prefix + "/" + suffix
+			return urls
+		
+		if sl==12: #streamer: "rtmp://m22.megafun.vn/hctv", file: sv, primary: "flash",
+			detect_word = "streamer: \""
+			for lines in bufFilechanel.readlines():
+				if detect_word in lines:
+					firstsign = lines.index(detect_word) + 11
+					prefix = lines[firstsign:] 
+					lastsign = prefix.index("\",")
+					prefix = prefix[:lastsign]
+					
+					urls = prefix + "/vstv017"
 			return urls
 			
 		return None
